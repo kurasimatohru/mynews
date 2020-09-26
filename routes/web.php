@@ -20,7 +20,7 @@ Route::group(['prefix' => 'admin'], function() {
 });
 
 Route::group(['prefix' => 'xxx'], function(){
-    Route::get('xxx' ,'\AAAController@bbb'); 
+    Route::get('xxx' ,'AAAController@bbb'); 
 });
 
 Route::group(['prefix' => 'admin'], function() {
