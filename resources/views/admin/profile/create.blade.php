@@ -22,26 +22,26 @@
                     </ul>
                 @endif
                 <div class="form-group row">
-                    <label class="col-md-2">氏名</label>
+                    <label class="col-md-2" for="name">氏名</label>
                     <dv class="col-md-10">
-                        <input type="text" class="form-control" name="title" value=""{{ old('title') }}">
+                        <input type="text" class="form-control" name="name" value=""{{ old('title') }}">
                     </dv>
                 </div>
                 <div class="form-group row">
-                    <label class="col-md-2">性別</label>
+                    <label class="col-md-2" for="gender">性別</label>
                     <dv class="col-md-10">
                         <input type="text" class="form-control" name="gender" value=""{{ old('gender') }}">
                     </dv>
                 </div>                
                 <div class="form-group row">
-                    <label class="col-md-2">趣味</label>
+                    <label class="col-md-2" for="hobby">趣味</label>
                     <dv class="col-md-10">
                         <input type="text" class="form-control" name="hobby" value=""{{ old('hobby') }}">
                     </dv>
                 </div>
                 
                 <div class="form-group row">
-                    <label class="col-md-2">自己紹介欄</label>
+                    <label class="col-md-2" for="introduction">自己紹介欄</label>
                     <div class="col-md-10">
                         <textarea class="form-control" name="introduction" rows="20">{{ old('introduction') }}</textarea>
                     </div>    
