@@ -18,7 +18,6 @@ class NewsController extends Controller
     public function create(Request $request)
     {
  
-    //以下を追記
     // Varidationを行う
     $this->validate($request, News::$rules);
     
@@ -26,6 +25,7 @@ class NewsController extends Controller
     $form = $request->all();
     
     // フォームから画像が送信されてきたら、保存して、$news->image_path　に画像のパスを保存する
+    // (formに画像があれば、保存する)
     
     if (isset($form['image]'])){
         $path = $request->file('image')->store('public/image');
@@ -46,5 +46,69 @@ class NewsController extends Controller
     
     
     return redirect('admin.news.create');
- }
+    }
+ 
+// 以下、index Acttion追加
+ 
+    public function index(Request $request)
+    {
+     $cond_title = $request->cond_title;
+     if ($cond_title != '') {
+        //  検索されたら検索結果を取得する
+        $posts = News::where('title', $cond_title)->get();
+     } else {
+        //  それ以外はすべてのニュースを取得する
+        $posts = News::all();
+     }
+     return view('admin.news.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+    }
+ 
+ // 以下、edit Acttion追加
+     
+    public function edit (Request $request)
+    {
+    // News modelからデータを取得する
+    $news = News::find($request->id);
+    if (empty($news)) {
+        abort(404);
+    }
+    return view('admin.news.edit',['news_form' => $news]);
+    }
+
+ // 以下、update Acttion追加
+    
+    public function update(Request $request)
+    {
+    // Validationをかける
+    $this->validate($request, News::$rules);
+    // News modelからデータを取得する
+    $news = News::find($request->id);
+    // 送信されてきたフォームデータを格納する
+    $news_form = $request->all();
+    if ($request->remove == 'true') {
+        $news_form['image_path'] = null;
+      } elseif ($request->file('image')) {
+        $path = $request->file('image')->store('public/image');
+        $news_form['image_path'] = basename($path);
+      } else {
+        $news_form['image_path'] = $news->image_path;
+      }
+    unset($news_form['_token']);
+    
+    // 該当するデータを上書きして保存する
+    $news->fill($news_form)->save();
+    
+    return redirect('admin/news/');
+    }
+ 
+ // 以下、delete Acttion追加
+    public function delete(Request $request)
+    {
+        // 該当するNews Modelを取得
+        $news = News::find($request->id);
+        // 削除する
+        $news->delete();
+        return redirect('admin/news/');
+    }
+ 
 }

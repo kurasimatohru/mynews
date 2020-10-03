@@ -19,7 +19,6 @@ class ProfileController extends Controller
     public function create(Request $request)
     {
         
-        // 以下を追記
         // Varidationを行う
         $this->validate($request, Profile::$rules);
         
@@ -37,14 +36,33 @@ class ProfileController extends Controller
         
     }
     
-    public function edit()
-    {
-        return view('admin.profile.edit');
-        
-    }
+ // 以下、edit Acttion追加
     
-    public function update()
+    public function edit (Request $request)
     {
+    // Profile modelからデータを取得する
+    $profile = Profile::find($request->id);
+    if (empty($profile)) {
+        abort(404);
+    }
+    return view('admin.profile.edit',['profile_form' => $profile]);
+    }
+ 
+ // 以下、update Acttion追加 
+    
+    public function update(Request $request)
+    {
+    // Validationをかける
+    $this->validate($request, Profile::$rules);
+    // Profile modelからデータを取得する
+    $profile = Profile::find($request->id);
+    // 送信されてきたフォームデータを格納する
+    $profile_form = $request->all();
+    unset($profile_form['_token']);
+    
+    // 該当するデータを上書きして保存する
+    $profile->fill($profile_form)->save();
+    
         return redirect('admin/profile/edit');
         
     }
