@@ -73,6 +73,5 @@ class ProfileController extends Controller
     $history->save();    
     
         return redirect('admin/profile/create');
-        
     }
 }
