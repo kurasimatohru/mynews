@@ -38,6 +38,7 @@
                             </div>
                             <div class="title">
                                 {{ str_limit($post->title, 150) }}
+                                <p>課題：追加開発してください</p>
                             </div>
                             <div class="body mt-3">
                                 {{ str_limit($post->body, 1500) }}
